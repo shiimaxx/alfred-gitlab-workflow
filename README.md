@@ -1,1 +1,1 @@
-# go-gitlab
+# alfred-gitlab-workflow

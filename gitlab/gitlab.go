@@ -19,6 +19,7 @@ type Client struct {
 	client    *http.Client
 	BaseURL   *url.URL
 	UserAgent string
+	Token     string
 }
 
 // Project represents a GitLab project
@@ -36,13 +37,13 @@ type Project struct {
 }
 
 // NewClient constructor for Client
-func NewClient(httpClient *http.Client) *Client {
+func NewClient(httpClient *http.Client, token string) *Client {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
 	baseURL, _ := url.Parse(defaultBaseURL)
 
-	c := &Client{client: httpClient, BaseURL: baseURL, UserAgent: userAgent}
+	c := &Client{client: httpClient, BaseURL: baseURL, UserAgent: userAgent, Token: token}
 	return c
 }
 
@@ -56,6 +57,7 @@ func (c *Client) NewRequest(ctx context.Context, method, urlStr string) (*http.R
 	if err != nil {
 		return nil, err
 	}
+	req.Header.Add("Private-Token", c.Token)
 	req.WithContext(ctx)
 	return req, nil
 }

@@ -48,7 +48,7 @@ func (c *CLI) Run(args []string) int {
 				fmt.Fprint(c.errStream, err)
 				return ExitCodeError
 			}
-			url := flags.Args()[1]
+			url := urlFlags.Args()[0]
 			if _, err := f.Write([]byte(url)); err != nil {
 				fmt.Fprint(c.errStream, err)
 				return ExitCodeError
@@ -61,7 +61,7 @@ func (c *CLI) Run(args []string) int {
 		}
 
 		if tokenFlags.Parsed() {
-			item := keychain.NewGenericPassword("alfred-gitlab-workflow", "", "", []byte(flags.Args()[1]), "")
+			item := keychain.NewGenericPassword("alfred-gitlab-workflow", "", "", []byte(tokenFlags.Args()[0]), "")
 			item.SetAccessible(keychain.AccessibleWhenUnlocked)
 			if err := keychain.AddItem(item); err != nil {
 				fmt.Fprint(c.errStream, err)

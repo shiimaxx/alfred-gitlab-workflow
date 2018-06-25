@@ -22,8 +22,8 @@ type Item struct {
 	} `json:"icon"`
 }
 
-func Run(endpointURL string) string {
-	c := gitlab.NewClient(nil, endpointURL, "")
+func Run(endpointURL, token string) string {
+	c := gitlab.NewClient(nil, endpointURL, token)
 	projects, err := c.GetProjects()
 	if err != nil {
 		return err.Error()

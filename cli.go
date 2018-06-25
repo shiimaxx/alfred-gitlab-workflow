@@ -2,15 +2,13 @@ package main
 
 import (
 	"io"
-
 	"fmt"
-
 	"flag"
-
 	"os"
-
 	"io/ioutil"
+
 	"github.com/shiimaxx/alfred-gitlab-workflow/workflow"
+	"github.com/keybase/go-keychain"
 )
 
 // Exit codes are int values that represent an exit code for a particular error.
@@ -59,6 +57,12 @@ func (c *CLI) Run(args []string) int {
 	}
 
 	if setToken {
+		item := keychain.NewGenericPassword("alfred-gitlab-workflow", "", "", []byte(flags.Args()[0]), "")
+		item.SetAccessible(keychain.AccessibleWhenUnlocked)
+		if err := keychain.AddItem(item); err != nil {
+			fmt.Fprint(c.errStream, err)
+			return ExitCodeError
+		}
 		return ExitCodeOK
 	}
 
@@ -71,6 +75,13 @@ func (c *CLI) Run(args []string) int {
 		}
 		url = string(d)
 	}
-	fmt.Fprint(c.outStream, workflow.Run(url))
+
+	b, err := keychain.GetGenericPassword("alfred-gitlab-workflow", "", "", "")
+	if err != nil {
+		fmt.Fprint(c.errStream, err)
+		return ExitCodeError
+	}
+
+	fmt.Fprint(c.outStream, workflow.Run(url, string(b)))
 	return ExitCodeOK
 }

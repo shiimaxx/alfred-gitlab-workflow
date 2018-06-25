@@ -37,11 +37,17 @@ type Project struct {
 }
 
 // NewClient constructor for Client
-func NewClient(httpClient *http.Client, token string) *Client {
+func NewClient(httpClient *http.Client, endpointURL, token string) *Client {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
-	baseURL, _ := url.Parse(defaultBaseURL)
+
+	var baseURL *url.URL
+	if endpointURL == "" {
+		baseURL, _ = url.Parse(defaultBaseURL)
+	} else {
+		baseURL, _ = url.Parse(endpointURL)
+	}
 
 	c := &Client{client: httpClient, BaseURL: baseURL, UserAgent: userAgent, Token: token}
 	return c

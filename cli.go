@@ -9,6 +9,7 @@ import (
 
 	"os"
 
+	"io/ioutil"
 	"github.com/shiimaxx/alfred-gitlab-workflow/workflow"
 )
 
@@ -61,6 +62,15 @@ func (c *CLI) Run(args []string) int {
 		return ExitCodeOK
 	}
 
-	fmt.Fprint(c.outStream, workflow.Run())
+	var url string
+	if _, err := os.Stat("endpoint_url"); ! os.IsNotExist(err) {
+		d, err := ioutil.ReadFile("endpoint_url")
+		if err != nil {
+			fmt.Fprint(c.errStream, err)
+			return ExitCodeError
+		}
+		url = string(d)
+	}
+	fmt.Fprint(c.outStream, workflow.Run(url))
 	return ExitCodeOK
 }

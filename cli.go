@@ -43,7 +43,7 @@ func (c *CLI) Run(args []string) int {
 		}
 
 		if urlFlags.Parsed() {
-			f, err := os.OpenFile("endpoint_url", os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0664)
+			f, err := os.OpenFile("./endpoint_url", os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0664)
 			if err != nil {
 				fmt.Fprint(c.errStream, err)
 				return ExitCodeError

@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"sync"
 	"time"
 )
 
@@ -20,6 +21,8 @@ type Client struct {
 	BaseURL   *url.URL
 	UserAgent string
 	Token     string
+	Parallel  int
+	sync.Mutex
 }
 
 // Project represents a GitLab project
@@ -49,7 +52,13 @@ func NewClient(httpClient *http.Client, endpointURL, token string) *Client {
 		baseURL, _ = url.Parse(endpointURL)
 	}
 
-	c := &Client{client: httpClient, BaseURL: baseURL, UserAgent: userAgent, Token: token}
+	c := &Client{
+		client:    httpClient,
+		BaseURL:   baseURL,
+		UserAgent: userAgent,
+		Token:     token,
+		Parallel:  10,
+	}
 	return c
 }
 

@@ -3,9 +3,11 @@ package gitlab
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strconv"
 	"sync"
 	"time"
 )
@@ -22,7 +24,6 @@ type Client struct {
 	UserAgent string
 	Token     string
 	Parallel  int
-	sync.Mutex
 }
 
 // Project represents a GitLab project
@@ -82,7 +83,7 @@ func (c *Client) GetProjects() ([]*Project, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	req, err := c.NewRequest(ctx, "GET", "projects")
+	req, err := c.NewRequest(ctx, "HEAD", "projects?per_page=100")
 	if err != nil {
 		return nil, err
 	}
@@ -92,16 +93,54 @@ func (c *Client) GetProjects() ([]*Project, error) {
 		return nil, err
 	}
 
-	body, err := ioutil.ReadAll(res.Body)
-	defer res.Body.Close()
+	xTotalPages := res.Header.Get("X-Total-Pages")
+	totalPages, err := strconv.Atoi(xTotalPages)
 	if err != nil {
 		return nil, err
 	}
 
-	var p []*Project
-	if err := json.Unmarshal(body, &p); err != nil {
-		return nil, err
+	if totalPages > 30 {
+		xTotal := res.Header.Get("X-Total")
+		return nil, fmt.Errorf("too many projects: %s", xTotal)
 	}
 
-	return p, nil
+	limit := make(chan struct{}, c.Parallel)
+
+	var projects []*Project
+	var wg sync.WaitGroup
+	var m sync.Mutex
+
+	for i := 1; i < totalPages + 1; i++ {
+		wg.Add(1)
+		page := i
+		go func() {
+			limit <- struct{}{}
+			defer wg.Done()
+			req, err := c.NewRequest(ctx, "GET", fmt.Sprintf("projects?per_page=100&page=%d", page))
+			if err != nil {
+				<-limit
+				return
+			}
+			res, err := c.client.Do(req)
+			if err != nil {
+				<-limit
+				return
+			}
+			body, err := ioutil.ReadAll(res.Body)
+			if err != nil {
+				<-limit
+				return
+			}
+			defer res.Body.Close()
+			var p []*Project
+			json.Unmarshal(body, &p)
+			m.Lock()
+			projects = append(projects, p...)
+			m.Unlock()
+			<-limit
+		}()
+	}
+	wg.Wait()
+
+	return projects, nil
 }

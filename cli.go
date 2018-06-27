@@ -26,8 +26,11 @@ type CLI struct {
 
 // Run invokes the CLI with the given arguments.
 func (c *CLI) Run(args []string) int {
+	var refresh bool
+
 	flags := flag.NewFlagSet("alfred-gitlab-workflow", flag.ContinueOnError)
 	flags.SetOutput(c.outStream)
+	flags.BoolVar(&refresh, "refresh", false, "force fetch projects")
 	if err := flags.Parse(args[1:]); err != nil {
 		return ExitCodeError
 	}
@@ -85,6 +88,6 @@ func (c *CLI) Run(args []string) int {
 		fmt.Fprint(c.errStream, err)
 		return ExitCodeError
 	}
-	fmt.Fprint(c.outStream, workflow.Run(url, string(b), false))
+	fmt.Fprint(c.outStream, workflow.Run(url, string(b), refresh))
 	return ExitCodeOK
 }

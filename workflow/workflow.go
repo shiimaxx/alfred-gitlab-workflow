@@ -2,8 +2,11 @@ package workflow
 
 import (
 	"encoding/json"
+	"os"
 
 	"github.com/shiimaxx/alfred-gitlab-workflow/gitlab"
+	"bufio"
+	"io/ioutil"
 )
 
 type Output struct {
@@ -22,7 +25,15 @@ type Item struct {
 	} `json:"icon"`
 }
 
-func Run(endpointURL, token string) string {
+func Run(endpointURL, token string, refresh bool) string {
+	if _, err := os.Stat("./projects"); !os.IsNotExist(err) && !refresh {
+		output, err := ioutil.ReadFile("./projects")
+		if err != nil {
+			return err.Error()
+		}
+		return string(output)
+	}
+
 	c := gitlab.NewClient(nil, endpointURL, token)
 	projects, err := c.GetProjects()
 	if err != nil {
@@ -44,6 +55,11 @@ func Run(endpointURL, token string) string {
 	if err != nil {
 		return err.Error()
 	}
+
+	f, _ := os.OpenFile("./projects", os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0664)
+	defer f.Close()
+	w := bufio.NewWriter(f)
+	w.Write(output)
 
 	return string(output)
 }

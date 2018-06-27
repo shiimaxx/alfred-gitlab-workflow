@@ -85,6 +85,6 @@ func (c *CLI) Run(args []string) int {
 		fmt.Fprint(c.errStream, err)
 		return ExitCodeError
 	}
-	fmt.Fprint(c.outStream, workflow.Run(url, string(b)))
+	fmt.Fprint(c.outStream, workflow.Run(url, string(b), false))
 	return ExitCodeOK
 }

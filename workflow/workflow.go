@@ -4,9 +4,10 @@ import (
 	"encoding/json"
 	"os"
 
-	"github.com/shiimaxx/alfred-gitlab-workflow/gitlab"
 	"bufio"
 	"io/ioutil"
+
+	"github.com/shiimaxx/alfred-gitlab-workflow/gitlab"
 )
 
 type Output struct {
@@ -25,11 +26,21 @@ type Item struct {
 	} `json:"icon"`
 }
 
+func makeErrorResponse(err error) string {
+	var items []Item
+	items = append(items, Item{
+		UID:   "error",
+		Title: err.Error(),
+	})
+	output, _ := json.Marshal(Output{Items: items})
+	return string(output)
+}
+
 func Run(endpointURL, token string, refresh bool) string {
 	if _, err := os.Stat("./projects"); !os.IsNotExist(err) && !refresh {
 		output, err := ioutil.ReadFile("./projects")
 		if err != nil {
-			return err.Error()
+			return makeErrorResponse(err)
 		}
 		return string(output)
 	}
@@ -37,7 +48,7 @@ func Run(endpointURL, token string, refresh bool) string {
 	c := gitlab.NewClient(nil, endpointURL, token)
 	projects, err := c.GetProjects()
 	if err != nil {
-		return err.Error()
+		return makeErrorResponse(err)
 	}
 
 	var Items []Item
@@ -53,7 +64,7 @@ func Run(endpointURL, token string, refresh bool) string {
 
 	output, err := json.Marshal(Output{Items: Items})
 	if err != nil {
-		return err.Error()
+		return makeErrorResponse(err)
 	}
 
 	f, _ := os.OpenFile("./projects", os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0664)

@@ -58,7 +58,7 @@ func NewClient(httpClient *http.Client, endpointURL, token string) *Client {
 		BaseURL:   baseURL,
 		UserAgent: userAgent,
 		Token:     token,
-		Parallel:  10,
+		Parallel:  5,
 	}
 	return c
 }
@@ -110,7 +110,7 @@ func (c *Client) GetProjects() ([]*Project, error) {
 	var wg sync.WaitGroup
 	var m sync.Mutex
 
-	for i := 1; i < totalPages + 1; i++ {
+	for i := 1; i < totalPages+1; i++ {
 		wg.Add(1)
 		page := i
 		go func() {

@@ -4,7 +4,7 @@ WIP: GitLab Alfred Workflow
 
 ## License
 
-[MIT](https://github.com/shiimaxx/alfred-gitlab/workflow/LICENSE)
+[MIT](https://github.com/shiimaxx/alfred-gitlab-workflow/blob/master/LICENSE)
 
 ## Author
 

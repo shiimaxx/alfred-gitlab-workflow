@@ -8,7 +8,46 @@
 	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
-		<key>50B0CD10-4D52-4898-9C05-DD3A34A829C3</key>
+		<key>709FC525-D52C-4947-A2A0-80C57FE4CC7E</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>C644A064-F1DD-457D-9C07-ED7804003BDD</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>B0E6E23F-4331-428D-88B9-607A3BB9501A</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>4864D11F-7858-4D8D-B1FF-90BD76947218</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>CA46B13F-E817-47E8-9B8C-48EC58B93D87</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>3130648E-1568-4E8C-A301-E5DEBE53A4F7</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>EC746C64-1068-4103-B8F6-BD9B12F253F5</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
@@ -32,6 +71,53 @@
 	<string>GitLab</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>gl</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Searching...</string>
+				<key>script</key>
+				<string>./alfred-gitlab-workflow</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Search projects</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>EC746C64-1068-4103-B8F6-BD9B12F253F5</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -61,40 +147,147 @@
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
-				<integer>1</integer>
+				<integer>0</integer>
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
-				<string>sgl</string>
+				<string>glrefresh</string>
 				<key>queuedelaycustom</key>
-				<integer>1</integer>
+				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
-				<false/>
+				<true/>
 				<key>queuedelaymode</key>
 				<integer>0</integer>
 				<key>queuemode</key>
 				<integer>1</integer>
 				<key>runningsubtext</key>
-				<string>Search projects...</string>
+				<string>Searching...</string>
 				<key>script</key>
-				<string>./alfred-gitlab-workflow</string>
+				<string>./alfred-gitlab-workflow -refresh</string>
 				<key>scriptargtype</key>
-				<integer>0</integer>
+				<integer>1</integer>
 				<key>scriptfile</key>
-				<string>test.sh</string>
+				<string></string>
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Search project</string>
+				<string>Search projects with force fetch</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>50B0CD10-4D52-4898-9C05-DD3A34A829C3</string>
+			<string>709FC525-D52C-4947-A2A0-80C57FE4CC7E</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>{query}</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>C644A064-F1DD-457D-9C07-ED7804003BDD</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>keyword</key>
+				<string>glseturl</string>
+				<key>subtext</key>
+				<string>Setting youre GitLab endpoint URL</string>
+				<key>text</key>
+				<string>Setting endpoint url</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>B0E6E23F-4331-428D-88B9-607A3BB9501A</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>./alfred-gitlab-workflow set-url "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>4864D11F-7858-4D8D-B1FF-90BD76947218</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>glsettoken</string>
+				<key>subtext</key>
+				<string>Setting youre GitLab token</string>
+				<key>text</key>
+				<string>Setting token</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>CA46B13F-E817-47E8-9B8C-48EC58B93D87</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>./alfred-gitlab-workflow set-token "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>3130648E-1568-4E8C-A301-E5DEBE53A4F7</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -110,14 +303,54 @@ A new option now exists for Script Filters, "Alfred filters results". This allow
 		<key>2B9B3672-EC04-48A7-AA36-7325C6620747</key>
 		<dict>
 			<key>xpos</key>
-			<integer>220</integer>
+			<integer>280</integer>
 			<key>ypos</key>
 			<integer>50</integer>
 		</dict>
-		<key>50B0CD10-4D52-4898-9C05-DD3A34A829C3</key>
+		<key>3130648E-1568-4E8C-A301-E5DEBE53A4F7</key>
 		<dict>
-			<key>note</key>
-			<string>Alfred 3 now supports JSON as the Script Filter output. This is the recommended output.</string>
+			<key>xpos</key>
+			<integer>280</integer>
+			<key>ypos</key>
+			<integer>430</integer>
+		</dict>
+		<key>4864D11F-7858-4D8D-B1FF-90BD76947218</key>
+		<dict>
+			<key>xpos</key>
+			<integer>280</integer>
+			<key>ypos</key>
+			<integer>300</integer>
+		</dict>
+		<key>709FC525-D52C-4947-A2A0-80C57FE4CC7E</key>
+		<dict>
+			<key>xpos</key>
+			<integer>70</integer>
+			<key>ypos</key>
+			<integer>170</integer>
+		</dict>
+		<key>B0E6E23F-4331-428D-88B9-607A3BB9501A</key>
+		<dict>
+			<key>xpos</key>
+			<integer>70</integer>
+			<key>ypos</key>
+			<integer>300</integer>
+		</dict>
+		<key>C644A064-F1DD-457D-9C07-ED7804003BDD</key>
+		<dict>
+			<key>xpos</key>
+			<integer>280</integer>
+			<key>ypos</key>
+			<integer>170</integer>
+		</dict>
+		<key>CA46B13F-E817-47E8-9B8C-48EC58B93D87</key>
+		<dict>
+			<key>xpos</key>
+			<integer>70</integer>
+			<key>ypos</key>
+			<integer>430</integer>
+		</dict>
+		<key>EC746C64-1068-4103-B8F6-BD9B12F253F5</key>
+		<dict>
 			<key>xpos</key>
 			<integer>70</integer>
 			<key>ypos</key>
